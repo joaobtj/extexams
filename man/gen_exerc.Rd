@@ -26,13 +26,15 @@ gen_exerc(
 \item{template}{arquivo latex com o template}
 
 \item{decimal}{separador de decimal}
+
+\item{...}{argumentos da funcao exams2pdf}
 }
 \description{
 Gerar exercícios
 }
 \examples{
 \dontrun{
-gen_exerc(exs="countrycodes")
+p=gen_exerc(exs = c("anova", "countrycodes"))
 }
 
 }

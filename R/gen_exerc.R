@@ -6,6 +6,7 @@
 #' @param n_exerc numero de exercicios que serao gerados
 #' @param template arquivo latex com o template
 #' @param decimal separador de decimal
+#' @param ... argumentos da funcao exams2pdf
 #'
 #' @import exams
 #' @importFrom glue glue
@@ -13,22 +14,17 @@
 #'
 #' @examples
 #' \dontrun{
-#' gen_exerc(exs="countrycodes")
+#' p=gen_exerc(exs = c("anova", "countrycodes"))
 #' }
 #'
-
 gen_exerc <- function(
     exs,
-    curso="",
-    semestre=1,
-    n_exerc=1,
+    curso = "",
+    semestre = 1,
+    n_exerc = 1,
     template = c("exercicio_pt", "solution_pt"),
     decimal = ",",
     ...) {
-
-
-
-
   options(OutDec = decimal)
 
 
@@ -47,20 +43,26 @@ gen_exerc <- function(
     ID = getID
   )
 
-  for (i in exs) {
+  p <- a <- c()
+  for (i in seq_along(exs)) {
     set.seed(semestre)
-    exams::exams2pdf(
-      paste0(i, ".Rmd"),
+    p[[i]] <- exams::exams2pdf(
+      paste0(exs[[i]], ".Rmd"),
       n = n_exerc,
-      template = system.file("tex",paste0(template, ".tex"), package="extexams"),
+      template = system.file("tex", paste0(template, ".tex"), package = "extexams"),
       header = header,
       name = c(
         glue::glue("exercicio_{i}_{semestre}_{curso}_"),
         glue::glue("gabarito_{i}_{semestre}_{curso}_")
       ),
-      dir = paste0("gerada_",curso,"_", semestre),
-      verbose = TRUE,
-      #...
+      dir = glue::glue("gerada_{curso}_{semestre}"),
+      verbose = TRUE
+      # ,
+      # ...
     )
+
+    a[[i]] <- exams_metainfo(p[[i]])
   }
+
+  return(a)
 }
