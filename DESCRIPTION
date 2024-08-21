@@ -13,3 +13,5 @@ Imports:
     glue,
     knitr,
     magrittr
+URL: https://github.com/joaobtj/extexams
+BugReports: https://github.com/joaobtj/extexams/issues
