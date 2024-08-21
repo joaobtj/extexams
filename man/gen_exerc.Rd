@@ -6,11 +6,12 @@
 \usage{
 gen_exerc(
   exs,
-  curso,
-  semestre,
-  n_exerc,
-  template = c("exercicio_pt.tex", "solution_pt.tex"),
-  decimal = ","
+  curso = "",
+  semestre = 1,
+  n_exerc = 1,
+  template = c("exercicio_pt", "solution_pt"),
+  decimal = ",",
+  ...
 )
 }
 \arguments{
@@ -28,4 +29,10 @@ gen_exerc(
 }
 \description{
 Gerar exercícios
+}
+\examples{
+\dontrun{
+gen_exerc(exs="countrycodes")
+}
+
 }

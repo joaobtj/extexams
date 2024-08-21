@@ -8,15 +8,27 @@
 #' @param decimal separador de decimal
 #'
 #' @import exams
+#' @importFrom glue glue
 #' @export
 #'
+#' @examples
+#' \dontrun{
+#' gen_exerc(exs="countrycodes")
+#' }
+#'
+
 gen_exerc <- function(
     exs,
-    curso,
-    semestre,
-    n_exerc,
-    template = c("exercicio_pt.tex", "solution_pt.tex"),
-    decimal = ",") {
+    curso="",
+    semestre=1,
+    n_exerc=1,
+    template = c("exercicio_pt", "solution_pt"),
+    decimal = ",",
+    ...) {
+
+
+
+
   options(OutDec = decimal)
 
 
@@ -40,14 +52,15 @@ gen_exerc <- function(
     exams::exams2pdf(
       paste0(i, ".Rmd"),
       n = n_exerc,
-      template = c("exercicio_pt.tex", "solution_pt.tex"),
+      template = system.file("tex",paste0(template, ".tex"), package="extexams"),
       header = header,
       name = c(
         glue::glue("exercicio_{i}_{semestre}_{curso}_"),
-        paste0("gabarito_", i, "_", semestre, curso)
+        glue::glue("gabarito_{i}_{semestre}_{curso}_")
       ),
-      dir = paste0("gerada_", semestre),
-      verbose = TRUE
+      dir = paste0("gerada_",curso,"_", semestre),
+      verbose = TRUE,
+      #...
     )
   }
 }
