@@ -9,12 +9,13 @@
 #' @param ... argumentos da funcao exams2pdf
 #'
 #' @import exams
+#' @import dplyr
 #' @importFrom glue glue
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' p=gen_exerc(exs = c("anova", "countrycodes"))
+#' p <- gen_exerc(exs = c("anova", "countrycodes"), n_exerc = 2)
 #' }
 #'
 gen_exerc <- function(
@@ -61,8 +62,12 @@ gen_exerc <- function(
       # ...
     )
 
-    a[[i]] <- exams_metainfo(p[[i]])
+    a[[i]] <- exams::exams_metainfo(p[[i]], class = "data.frame", tags = TRUE)
   }
 
-  return(a)
+  return(
+    a %>% do.call(rbind, .)%>% dplyr::select(replication,file, string,  solution)
+  )
 }
+
+
