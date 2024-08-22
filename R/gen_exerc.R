@@ -9,7 +9,8 @@
 #' @param ... argumentos da funcao exams2pdf
 #'
 #' @import exams
-#' @import dplyr
+#' @importFrom dplyr select
+#' @importFrom dplyr %>%
 #' @importFrom glue glue
 #' @export
 #'
@@ -20,8 +21,8 @@
 #'
 gen_exerc <- function(
     exs,
-    curso = "",
-    semestre = 1,
+    curso = "Curso",
+    semestre = "1999.1",
     n_exerc = 1,
     template = c("exercicio_pt", "solution_pt"),
     decimal = ",",
@@ -53,8 +54,8 @@ gen_exerc <- function(
       template = system.file("tex", paste0(template, ".tex"), package = "extexams"),
       header = header,
       name = c(
-        glue::glue("exercicio_{i}_{semestre}_{curso}_"),
-        glue::glue("gabarito_{i}_{semestre}_{curso}_")
+        glue::glue("exercicio_{exs[[i]]}_{semestre}_{curso}_"),
+        glue::glue("gabarito_{exs[[i]]}_{semestre}_{curso}_")
       ),
       dir = glue::glue("gerada_{curso}_{semestre}"),
       verbose = TRUE
@@ -66,8 +67,6 @@ gen_exerc <- function(
   }
 
   return(
-    a %>% do.call(rbind, .)%>% dplyr::select(replication,file, string,  solution)
+    a %>% do.call(rbind, .) %>% dplyr::select("replication", "file", "string", "solution")
   )
 }
-
-

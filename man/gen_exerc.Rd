@@ -6,8 +6,8 @@
 \usage{
 gen_exerc(
   exs,
-  curso = "",
-  semestre = 1,
+  curso = "Curso",
+  semestre = "1999.1",
   n_exerc = 1,
   template = c("exercicio_pt", "solution_pt"),
   decimal = ",",
@@ -34,7 +34,7 @@ Gerar exercícios
 }
 \examples{
 \dontrun{
-p=gen_exerc(exs = c("anova", "countrycodes"))
+p <- gen_exerc(exs = c("anova", "countrycodes"), n_exerc = 2)
 }
 
 }

@@ -3,6 +3,8 @@
 export(gen_exerc)
 export(masc)
 import(exams)
+importFrom(dplyr,"%>%")
+importFrom(dplyr,select)
 importFrom(glue,glue)
 importFrom(knitr,combine_words)
 importFrom(magrittr,"%>%")
