@@ -1,9 +1,16 @@
 Package: extexams
-Title: What the Package Does (One Line, Title Case)
+Title: Extended Tools for Academic Exams Generation
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Joao Batista", "Tolentino Jr.",
+           email = "joao.tolentino@ufsc.br",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-1303-4202"))
+Description: An extension of the 'exams' package providing custom LaTeX 
+    templates and automated workflows for quantitative assessments in 
+    Engineering and Agronomy. Developed to streamline course management 
+    at UFSC, allowing for dynamic exercise substitution based on students' 
+    previous performance.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
