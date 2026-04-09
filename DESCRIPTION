@@ -17,3 +17,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/joaobtj/extexams
+BugReports: https://github.com/joaobtj/extexams/issues
