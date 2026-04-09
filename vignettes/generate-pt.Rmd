@@ -1,0 +1,85 @@
+---
+title: "Gerando Provas e Exercícios com extexams"
+author: "Joao Batista Tolentino Jr."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Primeiros Passos com extexams}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(extexams)
+
+```
+
+## Introdução
+
+O pacote `extexams` simplifica a criação de avaliações acadêmicas dinâmicas. Construído sobre o robusto pacote `exams`, ele fornece funções otimizadas para dois fluxos principais de ensino: a geração em lote de listas de exercícios e a geração de provas personalizadas baseadas em uma lista de alunos.
+
+
+
+---
+
+## 1. Exercícios em Lote (`generate_exercises`)
+
+Para tarefas regulares ou listas de exercícios, a função `generate_exercises()` cria múltiplas cópias aleatórias de um conjunto de questões. Ao vincular a semente aleatória (seed) à string do `semester` (semestre), você garante que os documentos gerados sejam reprodutíveis.
+
+```{r batch-exercises, eval=FALSE}
+# Exemplo: Gerando 3 cópias de uma lista de exercícios sobre ANOVA e Frutas
+
+# Usamos um diretório temporário para a saída neste exemplo para seguir as políticas do CRAN.
+temp_dir <- tempdir()
+
+exercise_report <- generate_exercises(
+  exercises = c("anova", "fruit"),
+  course = "Estatistica",
+  semester = "2026.1",
+  n_exerc = 3,
+  output_dir = temp_dir
+)
+
+# Visualizar os metadados e o gabarito do lote gerado
+head(exercise_report)
+```
+
+---
+
+## 2. Provas Personalizadas (`generate_exams`)
+
+Ao aplicar avaliações formais, a função `generate_exams()` permite mapear uma lista de exercícios diretamente para uma lista de alunos (`data.frame`).
+
+Um recurso exclusivo desta função é a `substitution_list` (lista de substituição). Se um aluno já demonstrou domínio de um tópico específico (ex: nota > 0 em um ciclo anterior), a função pode trocar automaticamente aquele exercício específico por um aviso de "feito", evitando avaliações redundantes.
+
+```{r roster-exams, eval=FALSE}
+# 1. Criar uma lista fictícia de alunos
+students <- data.frame(
+  Nome = c("Joao", "Maria", "Carlos"),
+  P1_ciclo = c(1, 0, 0) # Joao foi aprovado no primeiro ciclo, Maria e Carlos não
+)
+
+# 2. Definir a estrutura da prova
+exs <- list("anova", "fruit")
+
+# 3. Gerar as provas
+exam_keys <- generate_exams(
+  exercises = exs,
+  course = "Estatistica",
+  semester = "2026.1",
+  exam_id = "P1",
+  data = students,
+  name_col = "Nome",
+  substitution_list = list(P1_ciclo = 1), # Substitui o 1º exercício ("anova") se P1_ciclo > 0
+  output_dir = temp_dir
+)
+
+# Visualizar os gabaritos concatenados de todos os alunos
+head(exam_keys)
+```
+
+No exemplo acima, João receberá um PDF onde a questão de ANOVA foi substituída pelo template `feito.Rmd`, enquanto Maria e Carlos receberão a prova completa.

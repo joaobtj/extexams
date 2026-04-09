@@ -13,3 +13,7 @@ Imports:
     exams,
     glue,
     purrr
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

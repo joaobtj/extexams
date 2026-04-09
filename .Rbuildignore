@@ -3,3 +3,5 @@
 ^LICENSE\.md$
 ^^gerada_\.*$
 ^README\.Rmd$
+^doc$
+^Meta$

@@ -1,0 +1,86 @@
+---
+title: "Generating Exams and Exercises with extexams"
+author: "Joao Batista Tolentino Jr."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with extexams}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(extexams)
+```
+
+## Introduction
+
+The `extexams` package streamlines the creation of dynamic academic assessments. Built on top of the robust `exams` package, it provides tailored functions for two primary teaching workflows: generating batch exercises for weekly practice, and generating personalized, roster-based exams.
+
+
+---
+
+## 1. Batch Exercises (`generate_exercises`)
+
+For regular assignments or weekly practice, `generate_exercises()` creates multiple randomized copies of a set of questions. By tying the random seed to the `semester` string, you ensure that the generated documents remain reproducible.
+
+```{r batch-exercises, eval=FALSE}
+# Example: Generating 3 copies of a practice sheet covering ANOVA and Fruit characteristics
+
+# We use a temporary directory for the output in this example to comply with CRAN policies.
+temp_dir <- tempdir()
+
+exercise_report <- generate_exercises(
+  exercises = c("anova", "fruit"),
+  course = "Estatistica",
+  semester = "2026.1",
+  n_exerc = 3,
+  output_dir = temp_dir
+)
+
+# View the metadata and answer keys for the generated batch
+head(exercise_report)
+```
+
+---
+
+## 2. Personalized Roster Exams (`generate_exams`)
+
+When administering high-stakes evaluations, `generate_exams()` allows you to map a list of exercises directly to a student roster (`data.frame`). 
+
+A unique feature of this function is the `substitution_list`. If a student has already demonstrated mastery of a specific topic (e.g., scoring > 0 in a previous cycle), the function can automatically swap that specific exercise for a "feito" (done) placeholder, saving them from redundant testing.
+
+```{r roster-exams, eval=FALSE}
+# 1. Create a mock student roster
+students <- data.frame(
+  Nome = c("Joao", "Maria", "Carlos"),
+  P1_ciclo = c(1, 0, 0) # Joao passed the first cycle, Maria and Carlos did not
+)
+
+# 2. Define the exam structure
+exs <- list("anova", "fruit")
+
+# 3. Generate the exams
+exam_keys <- generate_exams(
+  exercises = exs,
+  course = "Estatistica",
+  semester = "2026.1",
+  exam_id = "P1",
+  data = students,
+  name_col = "Nome",
+  substitution_list = list(P1_ciclo = 1), # Replaces the 1st exercise ("anova") if P1_ciclo > 0
+  output_dir = temp_dir
+)
+
+# View the concatenated answer keys for all students
+head(exam_keys)
+```
+
+In the example above, Joao will receive a PDF where the ANOVA question is replaced by the `feito.Rmd` template, while Maria and Carlos will receive the full exam.
+
+
+---
