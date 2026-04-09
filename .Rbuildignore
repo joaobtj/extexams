@@ -1,2 +1,4 @@
 ^extexams\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+^^gerada_\.*$

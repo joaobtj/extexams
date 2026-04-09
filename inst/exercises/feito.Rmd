@@ -1,0 +1,16 @@
+Question
+=============
+Questão já resolvida!
+  
+
+  
+Solution
+==========
+
+
+
+Meta-information
+================
+extype: string
+exsolution: feito
+exname: feito

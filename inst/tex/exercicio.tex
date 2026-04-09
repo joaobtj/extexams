@@ -1,0 +1,97 @@
+\documentclass[10pt,a4paper]{article}
+
+%% pacotes essenciais e atualizados
+\usepackage[T1]{fontenc}      % Essencial para hifenização de palavras acentuadas
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}    % Tradução de termos automáticos e regras pt-BR
+\usepackage[top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry} % Controle de margens
+% Adicionado o pacote amssymb para usar o comando \square
+\usepackage{graphicx,color,verbatim,Sweave,url,xargs,amsmath,amssymb,booktabs,longtable,eurosym}
+
+%% novos ambientes requeridos pelo pacote exams
+\newenvironment{question}{\item}{}
+\newenvironment{solution}{\comment}{\endcomment}
+\newenvironment{answerlist}{\renewcommand{\labelenumii}{(\alph{enumii})}\begin{enumerate}}{\end{enumerate}}
+
+%% compatibilidade com pandoc e knitr/rmarkdown
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\setkeys{Gin}{keepaspectratio}
+
+%% fontes: Helvetica (sem serifa, excelente para provas)
+\usepackage{helvet}
+\IfFileExists{sfmath.sty}{
+  \RequirePackage[helvet]{sfmath}
+}{}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\rmdefault}{phv}
+
+%% novos comandos para receber variáveis do R
+\makeatletter
+\newcommand{\Course}[1]{\def\@Course{#1}}
+\newcommand{\Semester}[1]{\def\@Semester{#1}}
+\newcommand{\ID}[1]{\def\@ID{#1}}
+
+\Course{Disciplina}
+\Semester{Ano/Semestre}
+\ID{00000}
+
+%% \exinput{header}
+
+\newcommand{\myCourse}{\@Course}
+\newcommand{\mySemester}{\@Semester}
+\newcommand{\myID}{\@ID}
+\makeatother
+
+%% cabeçalhos das páginas secundárias
+\markboth{\textnormal{\bf \large \myCourse \: \mySemester \hfill \myID}}%
+         {\textnormal{\bf \large \myCourse \: \mySemester \: \myID}}
+\pagestyle{myheadings}
+
+\begin{document}
+
+%% página de rosto / cabeçalho principal
+\thispagestyle{empty}
+{\sf
+\begin{center}
+    \textbf{\LARGE Universidade Federal de Santa Catarina}\\[0.15cm]
+    \textbf{\Large Campus de Curitibanos}\\[0.5cm]
+    \textbf{Exercício de \large \myCourse \ -- Semestre \mySemester} \hfill \textbf{ID: \myID}
+\end{center}
+
+\vspace{0.3cm}
+
+% Quadro de identificação do aluno e espaço para correção
+\noindent\fbox{
+  \begin{minipage}{\textwidth}
+    \vspace{0.2cm}
+    \textbf{Nome:} \hrulefill \\[0.4cm]
+    \textbf{Matrícula:} \rule{3.5cm}{0.4pt} \hfill
+    \textbf{Data:} \rule{2.5cm}{0.4pt} \hfill
+    \textbf{Avaliação:} $\square$ Correto \hspace{0.2cm} $\square$ Incorreto
+    \vspace{0.2cm}
+  \end{minipage}
+}
+}
+
+\vspace{0.2cm}
+
+% Aviso importante sobre a resolução
+\vspace{0.5cm}
+\begin{center}
+    \fbox{
+    \begin{minipage}{0.9\textwidth}
+        \centering
+        \textbf{\textit{Atenção: Apresente uma resolução completa e didática, explicitando todos os passos e o raciocínio utilizado. Estruture sua resposta para que sirva como material de estudo futuro. Respostas diretas sem o devido desenvolvimento não serão aceitas.}}
+    \end{minipage}
+    }
+\end{center}
+\vspace*{0.5cm}
+
+% Início dos exercícios
+\begin{enumerate}
+\setlength{\itemsep}{1.5em} % Aumenta levemente o espaço entre uma questão e outra
+%% \exinput{exercises}
+\end{enumerate}
+
+\end{document}
